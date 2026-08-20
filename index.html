@@ -752,47 +752,109 @@
       {
         id: 1,
         name: "Designer Ethnic Wear - Edition I",
-        price: 1000,
-        image: "https://i.ibb.co/B2TbhzsS/IMG-20260818-20282145.jpg",
+        price: 5000,
+        image: "https://i.ibb.co/1JTxPw27/IMG-20260128-WA0005.jpg",
         description: "Finely stitched premium quality fabric tailored for comfort and elegance."
       },
       {
         id: 2,
         name: "Designer Ethnic Wear - Edition II",
-        price: 1000,
-        image: "https://i.ibb.co/Y7J2xVzw/IMG-20260818-20282607.jpg",
+        price: 4500,
+        image: "https://i.ibb.co/Tx1ybykH/IMG-20260820-185220.jpg",
         description: "Contemporary design crafted with traditional aesthetics and fine detailing."
       },
       {
         id: 3,
         name: "Designer Ethnic Wear - Edition III",
-        price: 1000,
-        image: "https://i.ibb.co/M5Zsry6N/IMG-20260818-20283926.jpg",
+        price: 5200,
+        image: "https://i.ibb.co/vCqwwZcZ/IMG-20260623-204020.jpg",
+        description: "Classic styling offering an effortless blend of comfort and luxury."
+      }
+       {
+        id: 4,
+        name: "Designer Ethnic Wear - Edition III",
+        price: 3999,
+        image: "https://i.ibb.co/ZRQNcLcS/IMG-20260820-185626.jpg",
+        description: "Classic styling offering an effortless blend of comfort and luxury."
+      }
+     {
+        id: 5,
+        name: "Designer Ethnic Wear - Edition III",
+        price: 6499,
+        image: "https://i.ibb.co/5hRQTLTC/IMG-20260820-185750.jpg",
+        description: "Classic styling offering an effortless blend of comfort and luxury."
+      }
+     {
+        id: 6,
+        name: "Designer Ethnic Wear - Edition III",
+        price: 4800,
+        image: "https://i.ibb.co/n8V3CHxd/IMG-20260820-190103.jpg",
         description: "Classic styling offering an effortless blend of comfort and luxury."
       }
     ];
 
     let cart = [];
 
-    // Render Product Cards
-    function renderProducts() {
-      const grid = document.getElementById('product-grid');
-      grid.innerHTML = PRODUCTS.map(product => `
-        <div class="product-card">
-          <div class="img-container">
-            <span class="product-badge">Special Offer</span>
-            <img src="${product.image}" alt="${product.name}" loading="lazy" />
-          </div>
-          <div class="product-info">
-            <h3 class="product-title">${product.name}</h3>
-            <p class="product-desc">${product.description}</p>
-            <div class="product-footer">
-              <span class="product-price">₹${product.price.toLocaleString('en-IN')}</span>
-              <button class="btn-add" onclick="addToCart(${product.id})">Add to Bag</button>
-            </div>
-          </div>
+// Function called when clicking 'Add to Bag'
+function addToCart(productId) {
+  const product = PRODUCTS.find(p => p.id === productId);
+  if (!product) return;
+
+  const existingItem = cart.find(item => item.id === productId);
+  if (existingItem) {
+    existingItem.qty += 1;
+  } else {
+    cart.push({ ...product, qty: 1 });
+  }
+
+  updateCartDisplay();
+}
+
+// Function to update the floating counter and cart modal
+function updateCartDisplay() {
+  // Update badge counter
+  const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+  const cartCounter = document.getElementById("cart-count");
+  if (cartCounter) cartCounter.innerText = totalCount;
+
+  // Update grand total
+  const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+  const grandTotal = document.getElementById("cart-grand-total");
+  if (grandTotal) grandTotal.innerText = "₹" + totalAmount.toLocaleString('en-IN');
+
+  // Render items inside the drawer
+  const container = document.getElementById("cart-items-container");
+  if (container) {
+    container.innerHTML = cart.map(item => `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #eee;">
+        <div>
+          <strong>${item.name}</strong><br>
+          <small>Qty: ${item.qty} × ₹${item.price.toLocaleString('en-IN')}</small>
         </div>
-      `).join('');
+        <span>₹${(item.price * item.qty).toLocaleString('en-IN')}</span>
+      </div>
+    `).join('');
+  }
+}
+
+// Open & Close modal listeners
+document.addEventListener("DOMContentLoaded", () => {
+  const openCartBtn = document.getElementById("open-cart-btn");
+  const closeCartBtn = document.getElementById("close-cart-btn");
+  const cartModal = document.getElementById("cart-modal");
+
+  if (openCartBtn && cartModal) {
+    openCartBtn.addEventListener("click", () => {
+      cartModal.style.display = "flex";
+    });
+  }
+
+  if (closeCartBtn && cartModal) {
+    closeCartBtn.addEventListener("click", () => {
+      cartModal.style.display = "none";
+    });
+  }
+});
     }
 
     // Add Item to Cart
@@ -867,4 +929,21 @@
     }
 
     // Modal Handlers
-    const cartModal = document.getElementById('cart-modal');
+  const cartModal = document.getElementById('cart-modal');
+  const openCartBtn = document.getElementById('open-cart-btn');
+  const closeCartBtn = document.getElementById('close-cart-btn');
+
+  if (openCartBtn && cartModal) {
+    openCartBtn.addEventListener('click', () => {
+      cartModal.style.display = 'flex';
+    });
+  }
+
+  if (closeCartBtn && cartModal) {
+    closeCartBtn.addEventListener('click', () => {
+      cartModal.style.display = 'none';
+    });
+  }
+</script>
+</body>
+</html>
