@@ -481,6 +481,80 @@
       outline: none;
       border-color: var(--primary);
     }
+  /* Product Detail Section */
+.detail-container { 
+  display: none; 
+  background: #ffffff; 
+  border-radius: 12px; 
+  padding: 24px; 
+  max-width: 900px; 
+  margin: 30px auto; 
+  gap: 32px; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+}
+.detail-container.active { 
+  display: flex; 
+}
+.gallery-column { 
+  flex: 1; 
+  display: flex; 
+  gap: 12px; 
+}
+.thumbnails { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+}
+.thumb { 
+  width: 64px; 
+  height: 80px; 
+  object-fit: cover; 
+  border-radius: 4px; 
+  cursor: pointer; 
+  border: 2px solid transparent; 
+  opacity: 0.7; 
+}
+.thumb.active, .thumb:hover { 
+  border-color: #000; 
+  opacity: 1; 
+}
+.main-media-box { 
+  flex: 1; 
+  height: 420px; 
+  background: #000; 
+  border-radius: 8px; 
+  overflow: hidden; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+.main-media-box img, .main-media-box video { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: contain; 
+}
+.info-column { 
+  flex: 1; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+}
+.info-column h2 { 
+  font-size: 24px; 
+  margin-bottom: 8px; 
+}
+.info-column .price { 
+  font-size: 20px; 
+  font-weight: bold; 
+  margin-bottom: 16px; 
+  color: var(--primary, #d946ef); 
+}
+.info-column .desc { 
+  font-size: 14px; 
+  line-height: 1.6; 
+  color: #555; 
+  margin-bottom: 24px; 
+}
   </style>
 </head>
 <body>
@@ -503,7 +577,7 @@
     <div class="product-grid" id="product-grid">
 
   <!-- Product 1 -->
-  <div class="product-card">
+  <div class="product-card" onclick="showProductDetail(1)" style="cursor: pointer;">
     <div class="img-container">
       <span class="product-badge">Special Offer</span>
       <img src="https://i.ibb.co/1JTxPw27/IMG-20260128-WA0005.jpg" alt="Designer Ethnic Wear - Edition I">
@@ -519,7 +593,7 @@
   </div>
 
   <!-- Product 2 -->
-  <div class="product-card">
+  <div class="product-card" onclick="showProductDetail(2)" style="cursor: pointer;">
     <div class="img-container">
       <span class="product-badge">New Arrival</span>
       <img src="https://i.ibb.co/Tx1ybykH/IMG-20260820-185220.jpg" alt="Designer Ethnic Wear - Edition II">
@@ -535,7 +609,7 @@
   </div>
 
   <!-- Product 3 -->
-  <div class="product-card">
+  <div class="product-card" onclick="showProductDetail(3)" style="cursor: pointer;">
     <div class="img-container">
       <span class="product-badge">Popular</span>
       <img src="https://i.ibb.co/vCqwwZcZ/IMG-20260623-204020.jpg" alt="Designer Ethnic Wear - Edition III">
@@ -551,7 +625,7 @@
   </div>
 
   <!-- Product 4 -->
-  <div class="product-card">
+  <div class="product-card" onclick="showProductDetail(4)" style="cursor: pointer;">
     <div class="img-container">
       <span class="product-badge">Special Offer</span>
       <img src="https://i.ibb.co/ZRQNcLcS/IMG-20260820-185626.jpg" alt="Designer Ethnic Wear - Edition IV">
@@ -567,7 +641,7 @@
   </div>
 
   <!-- Product 5 -->
-  <div class="product-card">
+ <div class="product-card" onclick="showProductDetail(5)" style="cursor: pointer;">
     <div class="img-container">
       <span class="product-badge">Trending</span>
       <img src="https://i.ibb.co/5hRQTLTC/IMG-20260820-185750.jpg" alt="Designer Ethnic Wear - Edition V">
@@ -583,7 +657,7 @@
   </div>
 
   <!-- Product 6 -->
-  <div class="product-card">
+  <div class="product-card" onclick="showProductDetail(6)" style="cursor: pointer;">
     <div class="img-container">
       <span class="product-badge">Best Seller</span>
       <img src="https://i.ibb.co/n8V3CHxd/IMG-20260820-190103.jpg" alt="Designer Ethnic Wear - Edition VI">
@@ -599,7 +673,7 @@
   </div>
 
   <!-- Product 7 -->
-  <div class="product-card">
+  <div class="product-card" onclick="showProductDetail(7)" style="cursor: pointer;">
     <div class="img-container">
       <span class="product-badge">New Arrival</span>
       <img src="PASTE_IMAGE_URL_7" alt="Designer Ethnic Wear - Edition VII">
@@ -615,7 +689,7 @@
   </div>
 
   <!-- Product 8 -->
-  <div class="product-card">
+<div class="product-card" onclick="showProductDetail(8)" style="cursor: pointer;">
     <div class="img-container">
       <span class="product-badge">Limited Edition</span>
       <img src="PASTE_IMAGE_URL_8" alt="Designer Ethnic Wear - Edition VIII">
@@ -631,7 +705,7 @@
   </div>
 
   <!-- Product 9 -->
-  <div class="product-card">
+<div class="product-card" onclick="showProductDetail(9)" style="cursor: pointer;">
     <div class="img-container">
       <span class="product-badge">Special Offer</span>
       <img src="PASTE_IMAGE_URL_9" alt="Designer Ethnic Wear - Edition IX">
@@ -647,7 +721,7 @@
   </div>
 
   <!-- Product 10 -->
-  <div class="product-card">
+  <div class="product-card" onclick="showProductDetail(10)" style="cursor: pointer;">
     <div class="img-container">
       <span class="product-badge">Exclusive</span>
       <img src="PASTE_IMAGE_URL_10" alt="Designer Ethnic Wear - Edition X">
@@ -667,6 +741,19 @@
 </div>
     </div>
   </main>
+  <!-- DYNAMIC PRODUCT DETAIL VIEW -->
+  <div class="detail-container" id="productDetail">
+    <div class="gallery-column">
+      <div class="thumbnails" id="thumbList"></div>
+      <div class="main-media-box" id="mainMediaWrapper"></div>
+    </div>
+    <div class="info-column">
+      <h2 id="detailTitle"></h2>
+      <div class="price" id="detailPrice"></div>
+      <p class="desc" id="detailDesc"></p>
+      <button class="btn">Add to Bag</button>
+    </div>
+  </div>
 
   <!-- FLOATING ACTIONS -->
   <div class="floating-actions">
@@ -1070,7 +1157,19 @@ document.addEventListener("DOMContentLoaded", () => {
       if (event.target === modal) {
         modal.style.display = 'none';
       }
-    };
+    };<!-- DYNAMIC PRODUCT DETAIL VIEW -->
+  <div class="detail-container" id="productDetail">
+    <div class="gallery-column">
+      <div class="thumbnails" id="thumbList"></div>
+      <div class="main-media-box" id="mainMediaWrapper"></div>
+    </div>
+    <div class="info-column">
+      <h2 id="detailTitle"></h2>
+      <div class="price" id="detailPrice"></div>
+      <p class="desc" id="detailDesc"></p>
+      <button class="btn">Add to Bag</button>
+    </div>
+  </div>
   });
 </script>
 </body>
