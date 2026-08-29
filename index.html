@@ -481,6 +481,80 @@
       outline: none;
       border-color: var(--primary);
     }
+    /* Product Detail Section */
+.detail-container { 
+  display: none; 
+  background: #ffffff; 
+  border-radius: 12px; 
+  padding: 24px; 
+  max-width: 900px; 
+  margin: 30px auto; 
+  gap: 32px; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+}
+.detail-container.active { 
+  display: flex; 
+}
+.gallery-column { 
+  flex: 1; 
+  display: flex; 
+  gap: 12px; 
+}
+.thumbnails { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+}
+.thumb { 
+  width: 64px; 
+  height: 80px; 
+  object-fit: cover; 
+  border-radius: 4px; 
+  cursor: pointer; 
+  border: 2px solid transparent; 
+  opacity: 0.7; 
+}
+.thumb.active, .thumb:hover { 
+  border-color: #000; 
+  opacity: 1; 
+}
+.main-media-box { 
+  flex: 1; 
+  height: 420px; 
+  background: #000; 
+  border-radius: 8px; 
+  overflow: hidden; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+.main-media-box img, .main-media-box video { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: contain; 
+}
+.info-column { 
+  flex: 1; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center; 
+}
+.info-column h2 { 
+  font-size: 24px; 
+  margin-bottom: 8px; 
+}
+.info-column .price { 
+  font-size: 20px; 
+  font-weight: bold; 
+  margin-bottom: 16px; 
+  color: var(--primary, #d946ef); 
+}
+.info-column .desc { 
+  font-size: 14px; 
+  line-height: 1.6; 
+  color: #555; 
+  margin-bottom: 24px; 
+}
   </style>
 </head>
 <body>
@@ -667,8 +741,19 @@
 </div>
     </div>
   </main>
-
-  
+<!-- DYNAMIC PRODUCT DETAIL VIEW -->
+  <div class="detail-container" id="productDetail">
+    <div class="gallery-column">
+      <div class="thumbnails" id="thumbList"></div>
+      <div class="main-media-box" id="mainMediaWrapper"></div>
+    </div>
+    <div class="info-column">
+      <h2 id="detailTitle"></h2>
+      <div class="price" id="detailPrice"></div>
+      <p class="desc" id="detailDesc"></p>
+      <button class="btn">Add to Bag</button>
+    </div>
+  </div>
 
   <!-- FLOATING ACTIONS -->
   <div class="floating-actions">
@@ -1086,6 +1171,77 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   </div>
   });
+  // --- PRODUCT DETAIL & GALLERY LOGIC ---
+  const products = [
+    {
+      id: 1,
+      title: "Embroidered Lilac Lehenga Set",
+      price: "₹28,999",
+      description: "Intricately hand-embroidered raw silk lehenga with a matching blouse and heavy bordered drape.",
+      media: [
+        { type: "image", src: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600" },
+        { type: "image", src: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=600" },
+        { type: "video", src: "https://www.w3schools.com/html/mov_bbb.mp4" }
+      ]
+    },
+    {
+      id: 2,
+      title: "Multicolor Sequin Floral Lehenga",
+      price: "₹34,499",
+      description: "Modern sweetheart-neck crop blouse paired with a vibrant sequin flared skirt.",
+      media: [
+        { type: "image", src: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600" },
+        { type: "image", src: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?w=600" }
+      ]
+    }
+  ];
+
+  const detailContainer = document.getElementById("productDetail");
+  const thumbList = document.getElementById("thumbList");
+  const mainMediaWrapper = document.getElementById("mainMediaWrapper");
+
+  function showProductDetail(id) {
+    const product = products.find(item => item.id === id);
+    if (!product) return;
+
+    document.getElementById("detailTitle").innerText = product.title;
+    document.getElementById("detailPrice").innerText = product.price;
+    document.getElementById("detailDesc").innerText = product.description;
+
+    thumbList.innerHTML = "";
+
+    product.media.forEach((item, index) => {
+      const thumb = document.createElement(item.type === "video" ? "video" : "img");
+      thumb.src = item.src;
+      thumb.className = `thumb ${index === 0 ? "active" : ""}`;
+      thumb.onclick = () => {
+        document.querySelectorAll(".thumb").forEach(t => t.classList.remove("active"));
+        thumb.classList.add("active");
+        setMainMedia(item);
+      };
+      thumbList.appendChild(thumb);
+    });
+
+    setMainMedia(product.media[0]);
+    detailContainer.classList.add("active");
+    detailContainer.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function setMainMedia(item) {
+    mainMediaWrapper.innerHTML = "";
+    if (item.type === "video") {
+      const video = document.createElement("video");
+      video.src = item.src;
+      video.controls = true;
+      video.autoplay = true;
+      video.muted = true;
+      mainMediaWrapper.appendChild(video);
+    } else {
+      const img = document.createElement("img");
+      img.src = item.src;
+      mainMediaWrapper.appendChild(img);
+    }
+  }
 </script>
 </body>
 </html>
